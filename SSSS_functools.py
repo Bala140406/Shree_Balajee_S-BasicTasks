@@ -1,4 +1,3 @@
-import numpy
 import random
 from functools import reduce
 
@@ -14,7 +13,7 @@ def generate_coeffs(secret, k):
 def eval_polynomial(x, coeffs):
     return sum((coeff * pow(x, i, PRIME)) % PRIME for i, coeff in enumerate(coeffs)) % PRIME
 
-# Split secret into n shares
+# Splitting secret into n shares
 def split_secret(secret, n, k):
     coeffs = generate_coeffs(secret, k)
     shares = [(i, eval_polynomial(i, coeffs)) for i in range(1, n + 1)]
@@ -37,11 +36,10 @@ def reconstruct_secret(shares):
         secret = (secret + yi * li) % PRIME
     return secret
 
-# 🔥 Demo Time
 if __name__ == "__main__":
     secret = 123456789  # Replace with your private key or secret
     n = 5  # total shares
-    k = 3  # threshold
+    k = 3  # threshold/minimum number of shares needed
 
     shares = split_secret(secret, n, k)
     print("Shares:")
