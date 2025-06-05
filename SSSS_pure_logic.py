@@ -1,20 +1,20 @@
 import random
-# No modules are used except for random
-# Step 1: Generate a random polynomial of degree k-1 with the secret as the constant term
+# No other modules are used
+# Generate a random polynomial of degree k-1 with the secret as the constant term
 def make_polynomial(secret, k):
     coefficients = [secret]
     for _ in range(k - 1):
-        coefficients.append(random.randint(1, 100))  # Random coefficients
+        coefficients.append(random.randint(1, 100))  # Giving out random coefficients
     return coefficients
 
-# Step 2: Evaluate the polynomial at a given x
+# Evaluate the polynomial at a some x
 def evaluate_polynomial(coeffs, x):
     result = 0
     for i in range(len(coeffs)):
         result += coeffs[i] * (x ** i)
     return result
 
-# Step 3: Generate n shares from the polynomial
+# Generate n shares from the polynomial
 def generate_shares(secret, n, k):
     poly = make_polynomial(secret, k)
     shares = []
@@ -24,7 +24,7 @@ def generate_shares(secret, n, k):
         shares.append((x, y))
     return shares
 
-# Step 4: Manually perform Lagrange Interpolation to reconstruct the secret
+# Lagrange Interpolation method 
 def reconstruct_secret(shares):
     secret = 0
     k = len(shares)
@@ -41,15 +41,13 @@ def reconstruct_secret(shares):
         secret += yi * li
 
     return round(secret)
-
-# Demo
 secret = 2025
 n = 5      # Total shares
-k = 3      # Threshold to reconstruct
+k = 3      # Minimum shares needed to reconstruct
 
 shares = generate_shares(secret, n, k)
 print("Generated Shares:", shares)
 
-# Pick any k shares to recover the secret
+# Taking any k number of share to find the secret
 recovered = reconstruct_secret(shares[:k])
 print("Recovered Secret:", recovered)
